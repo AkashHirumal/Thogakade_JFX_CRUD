@@ -1,4 +1,4 @@
-package controller;
+package controller.customer;
 
 import db.DBConnection;
 import javafx.collections.FXCollections;
