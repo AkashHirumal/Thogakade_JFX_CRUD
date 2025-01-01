@@ -69,12 +69,32 @@ public class CustomerFormController implements Initializable {
 
     @FXML
     void btnRemoveOnAction(ActionEvent event) {
-
+        String SQL = "DELETE FROM customer WHERE id = '"+txtId.getText()+"'";
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+            boolean isDelete= connection.createStatement().executeUpdate(SQL)>0;
+            if(isDelete){
+                new Alert(Alert.AlertType.WARNING,"Customer Deleted!!").show();
+                loadTable();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
-
+        String SQL = "UPDATE customers SET id = '"+txtId.getText()+"' WHERE name='"+txtName.getText()+"' name='"+txtAddress.getText()+"' name='"+txtSalary.getText()+"'   ";
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+            boolean isUpdate= connection.createStatement().executeUpdate(SQL)>0;
+            if(isUpdate){
+                new Alert(Alert.AlertType.CONFIRMATION,"Customer Updateed!!").show();
+                loadTable();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
