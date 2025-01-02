@@ -14,6 +14,17 @@ import java.util.List;
 
 
 public class CustomerController implements CustomerService{
+
+    private static CustomerController instance;
+
+    private CustomerController(){
+
+    }
+    public static CustomerController getInstance(){
+        return instance==null?instance=new CustomerController():instance;
+    }
+
+
     @Override
     public List<Customer> getAll() {
         List <Customer> customerList = new ArrayList<>();

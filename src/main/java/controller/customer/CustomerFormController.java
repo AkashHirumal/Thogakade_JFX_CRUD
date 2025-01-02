@@ -10,6 +10,7 @@ import model.Customer;
 
 import java.net.URL;
 import java.sql.*;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXTextField;
@@ -117,27 +118,19 @@ public class CustomerFormController implements Initializable {
         colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         colSalary.setCellValueFactory(new PropertyValueFactory<>("salary"));
 
-        ObservableList<Customer> customerObservableList = FXCollections.observableArrayList();
 
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM customer");
-                while (resultSet.next()) {
-                    customerObservableList.add(
-                            new Customer(
+        CustomerController customercontroller=CustomerController.getInstance();
+        List<Customer> all = customercontroller.getAll();
 
-                                    resultSet.getString(1),
-                                    resultSet.getString(2),
-                                    resultSet.getString(3),
-                                    resultSet.getDouble(4)
-                            )
-                    );
-                }
+        ObservableList<Customer> customerObservableList= FXCollections.observableArrayList();
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        all.forEach(customer -> {
+            customerObservableList.add(customer);
+
+        });
+
+        tblCustomers.setItems(customerObservableList);
+
         tblCustomers.setItems(customerObservableList);
 
     }
