@@ -2,13 +2,11 @@ package controller.customer;
 
 import db.DBConnection;
 import javafx.collections.FXCollections;
+import javafx.scene.control.Alert;
 import model.Customer;
 
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +49,19 @@ public class CustomerController implements CustomerService{
 
     @Override
     public boolean saveCustomer(Customer customer) {
-        return false;
+        PreparedStatement psTm = null;
+        try {
+
+            psTm = DBConnection.getInstance().getConnection().prepareStatement("INSERT INTO customer VALUES (?,?,?,?)");
+
+            psTm.setString(1,customer.getId());
+            psTm.setString(2,customer.getName());
+            psTm.setString(3,customer.getAddress());
+            psTm.setDouble(4,customer.getSalary());
+            return psTm.executeUpdate()>0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

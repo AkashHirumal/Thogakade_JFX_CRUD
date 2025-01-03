@@ -50,20 +50,26 @@ public class CustomerFormController implements Initializable {
 
     @FXML
     void btnAddOnAction(ActionEvent event) {
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            String SQL = "INSERT INTO customer VALUES(?,?,?,?)";
-            PreparedStatement psTm = connection.prepareStatement(SQL);
-            psTm.setString(1,txtId.getText());
-            psTm.setString(2,txtName.getText());
-            psTm.setString(3,txtAddress.getText());
-            psTm.setDouble(4,Double.parseDouble(txtSalary.getText()));
-            if(psTm.executeUpdate()>0){
-                new Alert(Alert.AlertType.INFORMATION,"Added Customer !!").show();
+        if (txtName.getText().isEmpty() || txtAddress.getText().isEmpty() || txtSalary.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Incomplete Information");
+            alert.setHeaderText("Please fill in all fields to add the customer.");
+            alert.show();
+        } else {
+            if (CustomerController.getInstance().saveCustomer(new Customer(
+                    txtId.getText(),
+                    txtName.getText(),
+                    txtAddress.getText(),
+                    Double.parseDouble(txtSalary.getText())
+            ))) {
+                clearFields();
                 loadTable();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Failed to Add Customer");
+                alert.setContentText("There was an issue adding the customer. Please verify the input data.");
+                alert.show();
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
 
     }
@@ -145,6 +151,16 @@ public class CustomerFormController implements Initializable {
                 setTextToValues((Customer) newValue);
             }
         });
+    }
+
+
+
+
+
+    private void clearFields() {
+        txtName.clear();
+        txtAddress.clear();
+        txtSalary.clear();
     }
 
 
