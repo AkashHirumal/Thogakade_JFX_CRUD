@@ -7,14 +7,16 @@ import java.util.List;
 
 public interface ItemService {
 
-    List<Item> getAll();
+    List<Item> getItems();
 
-    boolean saveItem(Item item);
+    boolean addItem(Item item);
 
     boolean updateItem(Item item);
 
-    boolean deleteItem(String itemId);
+    boolean deleteItem(String id);
 
-    Item searchItem(String itemId);
+    Item searchItem(String id);
+
+
 
 }

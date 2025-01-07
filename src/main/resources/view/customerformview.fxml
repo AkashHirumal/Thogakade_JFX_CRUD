@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="546.0" prefWidth="544.0" xmlns="http://javafx.com/javafx/19.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.customer.CustomerFormController">
+<AnchorPane prefHeight="546.0" prefWidth="544.0" style="-fx-background-color: #76ff9d;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.customer.CustomerFormController">
 
     <children>
         <Label layoutX="35.0" layoutY="129.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="22.0" prefWidth="94.0" text="Name :">
@@ -54,7 +54,7 @@
                 <Font name="System Bold" size="12.0" />
             </font>
         </JFXButton>
-        <JFXButton layoutX="357.0" layoutY="201.0" onAction="#btnViewItemFormOnAction" prefHeight="26.0" prefWidth="154.0" style="-fx-background-color: #f2e500;" text="VIEW ITEM">
+        <JFXButton layoutX="357.0" layoutY="201.0" onAction="#btnSearchOnAction" prefHeight="26.0" prefWidth="154.0" style="-fx-background-color: #f2e500;" text="SEARCH">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>

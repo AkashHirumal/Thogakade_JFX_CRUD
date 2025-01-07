@@ -55,7 +55,7 @@ public class CustomerFormController implements Initializable {
         if (txtName.getText().isEmpty() || txtAddress.getText().isEmpty() || txtSalary.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Incomplete Information");
-            alert.setHeaderText("Please fill in all fields to add the customer.");
+            alert.setHeaderText("Please fill in all fields to add the customer...");
             alert.show();
         } else {
             if (CustomerController.getInstance().saveCustomer(new Customer(
@@ -69,7 +69,7 @@ public class CustomerFormController implements Initializable {
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Failed to Add Customer");
-                alert.setContentText("There was an issue adding the customer. Please verify the input data.");
+                alert.setContentText("There was an issue adding the customer. Please verify the input data...");
                 alert.show();
             }
         }
@@ -93,43 +93,88 @@ public class CustomerFormController implements Initializable {
                 if (CustomerController.getInstance().deleteCustomer(txtId.getText())) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Customer Deleted");
-                    alert.setHeaderText("Customer Successfully Deleted");
+                    alert.setHeaderText("Customer Successfully Deleted...");
                     alert.show();
                     clearFields();
                     loadTable();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Deletion Failed");
-                    alert.setHeaderText("An error occurred while deleting the customer.");
+                    alert.setHeaderText("An error occurred while deleting the customer...");
                     alert.show();
                 }
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Customer Not Found");
-            alert.setHeaderText("Please enter a valid existing Customer ID.");
+            alert.setHeaderText("Please enter a valid existing Customer Id...");
             alert.show();
         }
     }
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
-        String SQL = "UPDATE customers SET id = '"+txtId.getText()+"' WHERE name='"+txtName.getText()+"' name='"+txtAddress.getText()+"' name='"+txtSalary.getText()+"'   ";
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            boolean isUpdate= connection.createStatement().executeUpdate(SQL)>0;
-            if(isUpdate){
-                new Alert(Alert.AlertType.CONFIRMATION,"Customer Updateed!!").show();
-                loadTable();
+
+        if (txtName.getText().isEmpty() || txtAddress.getText().isEmpty() || txtSalary.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Incomplete Information");
+            alert.setHeaderText("Please fill in all fields to update the customer.");
+            alert.show();
+        } else {
+            Alert alertConfirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to update this customer?", ButtonType.YES, ButtonType.NO);
+            Optional<ButtonType> result = alertConfirmation.showAndWait();
+            ButtonType buttonType = result.orElse(ButtonType.NO);
+            if (buttonType == ButtonType.YES) {
+                if (CustomerController.getInstance().updateCustomer(new Customer(
+                        txtId.getText(),
+                        txtName.getText(),
+                        txtAddress.getText(),
+                        Double.parseDouble(txtSalary.getText())
+                ))) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Customer Updated");
+                    alert.setHeaderText("The customer's details have been successfully updated...");
+                    alert.show();
+                    clearFields();
+                    loadTable();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Update Failed");
+                    alert.setHeaderText("There was an issue updating the customer's details. Please try again...");
+                    alert.show();
+                }
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
+
     }
 
     @FXML
-    void btnViewItemFormOnAction(ActionEvent event) {
-
+    void btnSearchOnAction(ActionEvent event) {
+        boolean isExist = false;
+        for (Customer customer : CustomerController.getInstance().getAll()) {
+            if (customer.getId().equals(txtId.getText())) {
+                isExist = true;
+                break;
+            }
+        }
+        if (isExist) {
+            Customer customer = CustomerController.getInstance().searchCustomer(txtId.getText());
+            if (customer != null) {
+                txtName.setText(customer.getName());
+                txtAddress.setText(customer.getAddress());
+                txtSalary.setText(customer.getSalary().toString());
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Customer Not Found");
+                alert.setHeaderText("No customer was found with the provided ID.");
+                alert.show();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Customer Not Found");
+            alert.setHeaderText("Please enter a valid existing Customer Id...");
+            alert.show();
+        }
     }
 
     private void setTextToValues(Customer customer) {
@@ -176,11 +221,8 @@ public class CustomerFormController implements Initializable {
         });
     }
 
-
-
-
-
     private void clearFields() {
+        txtId.clear();
         txtName.clear();
         txtAddress.clear();
         txtSalary.clear();

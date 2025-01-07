@@ -8,12 +8,8 @@ import lombok.*;
 @ToString
 
 public class Item {
-
-    private String code ;
+    private String itemCode;
     private String description;
     private Double unitPrice;
     private Integer qtyOnHand;
-
-
-
 }

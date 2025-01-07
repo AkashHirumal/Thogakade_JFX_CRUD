@@ -1,11 +1,7 @@
 package controller.customer;
 
 import db.DBConnection;
-import javafx.collections.FXCollections;
-import javafx.scene.control.Alert;
 import model.Customer;
-
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +62,17 @@ public class CustomerController implements CustomerService{
 
     @Override
     public boolean updateCustomer(Customer customer) {
-        return false;
+        PreparedStatement statement = null;
+        try {
+            statement = DBConnection.getInstance().getConnection().prepareStatement("UPDATE customer SET name=?,address=?,salary=? WHERE id=?");
+            statement.setString(1, customer.getName());
+            statement.setString(2, customer.getAddress());
+            statement.setDouble(3, customer.getSalary());
+            statement.setString(4, customer.getId());
+            return statement.executeUpdate() >0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -80,9 +86,17 @@ public class CustomerController implements CustomerService{
 
     @Override
     public Customer searchCustomer(String customerId) {
-        return null;
+        try {
+            ResultSet res = DBConnection.getInstance().getConnection().createStatement().executeQuery("SELECT * FROM customer WHERE id = '" + customerId + "'");
+            res.next();
+            return new Customer(
+                    res.getString(1),
+                    res.getString(2),
+                    res.getString(3),
+                    Double.parseDouble(res.getString(4))
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
-
-
-
 }
