@@ -5,12 +5,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Customer;
 
 import java.net.URL;
 import java.sql.*;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXTextField;
@@ -75,17 +77,38 @@ public class CustomerFormController implements Initializable {
     }
 
     @FXML
-    void btnRemoveOnAction(ActionEvent event) {
-        String SQL = "DELETE FROM customer WHERE id = '"+txtId.getText()+"'";
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            boolean isDelete= connection.createStatement().executeUpdate(SQL)>0;
-            if(isDelete){
-                new Alert(Alert.AlertType.WARNING,"Customer Deleted!!").show();
-                loadTable();
+    void btnRemoveOnAction(ActionEvent event) throws SQLException {
+        boolean isExist = false;
+        for (Customer customer : CustomerController.getInstance().getAll()) {
+            if (customer.getId().equals(txtId.getText())) {
+                isExist = true;
+                break;
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        }
+        if (isExist) {
+            Alert alertConfirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this customer?", ButtonType.YES, ButtonType.NO);
+            Optional<ButtonType> result = alertConfirmation.showAndWait();
+            ButtonType buttonType = result.orElse(ButtonType.NO);
+            if (buttonType == ButtonType.YES) {
+                if (CustomerController.getInstance().deleteCustomer(txtId.getText())) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Customer Deleted");
+                    alert.setHeaderText("Customer Successfully Deleted");
+                    alert.show();
+                    clearFields();
+                    loadTable();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Deletion Failed");
+                    alert.setHeaderText("An error occurred while deleting the customer.");
+                    alert.show();
+                }
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Customer Not Found");
+            alert.setHeaderText("Please enter a valid existing Customer ID.");
+            alert.show();
         }
     }
 

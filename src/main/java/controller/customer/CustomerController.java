@@ -70,8 +70,12 @@ public class CustomerController implements CustomerService{
     }
 
     @Override
-    public boolean deleteCustomer(String customerId) {
-        return false;
+    public boolean deleteCustomer(String customerId) throws SQLException {
+        try {
+            return DBConnection.getInstance().getConnection().createStatement().executeUpdate("DELETE FROM customer WHERE id = '" + customerId + "'") > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -79,13 +83,6 @@ public class CustomerController implements CustomerService{
         return null;
     }
 
-    public  List<String> getCustomerIds(){
-        List<Customer> allCustomers = getAll();
-        List<String> idList = FXCollections.observableArrayList();
 
-        allCustomers.forEach(customer -> {
-            idList.add(customer.getId());
-        });
-        return idList;
-    }
+
 }
