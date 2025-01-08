@@ -6,11 +6,11 @@
 
 <h2>Project Screenshots:</h2>
 
-<img src="https://i.postimg.cc/9f5D7k5h/Screenshot-208.png" alt="project-screenshot" width="300" height="200/">
+<img src="https://i.postimg.cc/9f5D7k5h/Screenshot-208.png" alt="project-screenshot" width="350" height="200/">
 
-<img src="https://i.postimg.cc/C1KSBC10/Screenshot-209.png" alt="project-screenshot" width="300" height="200/">
+<img src="https://i.postimg.cc/C1KSBC10/Screenshot-209.png" alt="project-screenshot" width="350" height="200/">
 
-<img src="https://i.postimg.cc/PxBXgpXk/Screenshot-210.png" alt="project-screenshot" width="300" height="200/">
+<img src="https://i.postimg.cc/PxBXgpXk/Screenshot-210.png" alt="project-screenshot" width="350" height="200/">
 
   
   
