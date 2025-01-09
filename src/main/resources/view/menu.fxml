@@ -5,19 +5,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="323.0" style="-fx-background-color: #ff9393;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuFromController">
+<AnchorPane prefHeight="475.0" prefWidth="758.0" style="-fx-background-color: #FCFAEE;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuFromController">
    <children>
-      <Label layoutY="-1.0" prefHeight="63.0" prefWidth="326.0" style="-fx-background-color: #000b81;" text="                 Thoga Kade" textAlignment="CENTER" textFill="WHITE">
+      <Label layoutY="-1.0" prefHeight="63.0" prefWidth="274.0" style="-fx-background-color: #000b81;" text="          Thoga Kade" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <JFXButton layoutX="78.0" layoutY="94.0" onAction="#btnCustomerOnAction" prefHeight="50.0" prefWidth="169.0" style="-fx-background-color: #00d744;" text="CUSTOMER">
+      <JFXButton layoutX="49.0" layoutY="106.0" onAction="#btnCustomerOnAction" prefHeight="50.0" prefWidth="169.0" style="-fx-background-color: #384B70;" text="CUSTOMER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="78.0" layoutY="161.0" onAction="#btnItemOnAction" prefHeight="50.0" prefWidth="169.0" style="-fx-background-color: #c900cc;" text="ITEM">
+      <JFXButton layoutX="49.0" layoutY="205.0" onAction="#btnItemOnAction" prefHeight="50.0" prefWidth="169.0" style="-fx-background-color: #507687;" text="ITEM">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </JFXButton>
+      <AnchorPane fx:id="loadFormContent" layoutX="274.0" prefHeight="536.0" prefWidth="542.0" style="-fx-background-color: black;" />
+      <JFXButton layoutX="49.0" layoutY="313.0" onAction="#btnOrdersOnAction" prefHeight="50.0" prefWidth="169.0" style="-fx-background-color: #B8001F;" text="ORDER">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>

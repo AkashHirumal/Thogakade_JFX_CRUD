@@ -1,6 +1,5 @@
 package controller.item;
 
-import model.Customer;
 import model.Item;
 
 import java.util.List;
