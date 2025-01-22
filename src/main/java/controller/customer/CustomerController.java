@@ -1,6 +1,8 @@
 package controller.customer;
 
 import db.DBConnection;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import model.Customer;
 import java.sql.*;
 import java.util.ArrayList;
@@ -41,6 +43,14 @@ public class CustomerController implements CustomerService{
             throw new RuntimeException(e);
         }
         return customerList;
+    }
+
+    public ObservableList<String> getCustomerIds(){
+        ObservableList<String> custIdlist = FXCollections.observableArrayList();
+        getAll().forEach(customer -> {
+            custIdlist.add(customer.getId());
+        });
+        return custIdlist;
     }
 
     @Override

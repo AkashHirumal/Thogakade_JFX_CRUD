@@ -5,17 +5,9 @@ import model.Item;
 import java.util.List;
 
 public interface ItemService {
-
-    List<Item> getItems();
-
     boolean addItem(Item item);
-
     boolean updateItem(Item item);
-
-    boolean deleteItem(String id);
-
-    Item searchItem(String id);
-
-
-
+    boolean deleteItem(String itemCode);
+    Item searchItem(String itemCode);
+    List<Item> getAll();
 }

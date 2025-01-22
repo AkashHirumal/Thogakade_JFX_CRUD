@@ -22,7 +22,7 @@
             <Font name="System Bold" size="19.0" />
          </font>
       </JFXButton>
-      <AnchorPane fx:id="loadFormContent" layoutX="274.0" prefHeight="536.0" prefWidth="542.0" style="-fx-background-color: black;" />
+      <AnchorPane fx:id="loadFormContent" layoutX="274.0" prefHeight="536.0" prefWidth="581.0" style="-fx-background-color: black;" />
       <JFXButton layoutX="49.0" layoutY="313.0" onAction="#btnOrdersOnAction" prefHeight="50.0" prefWidth="169.0" style="-fx-background-color: #B8001F;" text="ORDER">
          <font>
             <Font name="System Bold" size="19.0" />

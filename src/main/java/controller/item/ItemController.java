@@ -1,90 +1,90 @@
 package controller.item;
 
 import db.DBConnection;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import model.Item;
 
-import java.sql.PreparedStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemController implements ItemService{
-    private static ItemController itemController;
-
-    public static ItemController getInstance() {
-        return itemController == null ? itemController = new ItemController() : itemController;
-    }
+public class ItemController implements ItemService {
 
     @Override
     public boolean addItem(Item item) {
-        try {
-            PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement("INSERT INTO item VALUES (?,?,?,?)");
-            statement.setString(1, item.getItemCode());
-            statement.setString(2, item.getDescription());
-            statement.setDouble(3, item.getUnitPrice());
-            statement.setInt(4, item.getQtyOnHand());
-            return statement.executeUpdate() > 0;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return false;
     }
 
     @Override
     public boolean updateItem(Item item) {
-        try {
-            PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement("UPDATE item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?");
-            statement.setString(1, item.getDescription());
-            statement.setDouble(2, item.getUnitPrice());
-            statement.setInt(3, item.getQtyOnHand());
-            statement.setString(4, item.getItemCode());
-            return statement.executeUpdate() > 0;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return false;
     }
 
     @Override
-    public boolean deleteItem(String id) {
-        try {
-            return DBConnection.getInstance().getConnection().createStatement().executeUpdate("DELETE FROM item WHERE code = '" + id + "'") > 0;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public boolean deleteItem(String itemCode) {
+        return false;
     }
 
     @Override
-    public Item searchItem(String id) {
+    public Item searchItem(String itemCode) {
+
+        String SQL = "SELECT * FROM item WHERE code=" + "'" + itemCode + "'";
+
         try {
-            ResultSet res = DBConnection.getInstance().getConnection().createStatement().executeQuery("SELECT * FROM item WHERE code = '" + id + "'");
-            res.next();
+            Connection connection = DBConnection.getInstance().getConnection();
+            ResultSet resultSet = connection.createStatement().executeQuery(SQL);
+            resultSet.next();
             return new Item(
-                    res.getString(1),
-                    res.getString(2),
-                    res.getDouble(3),
-                    res.getInt(4)
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getDouble(3),
+                    resultSet.getInt(4)
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+
     }
 
     @Override
-    public List<Item> getItems() {
-        List<Item> itemsList = new ArrayList<>();
+    public List<Item> getAll() {
+        List<Item> itemList = new ArrayList<>();
+
+        String SQL = "SELECT * FROM item";
+
         try {
-            ResultSet res = DBConnection.getInstance().getConnection().createStatement().executeQuery("SELECT * FROM item");
-            while (res.next()) {
-                itemsList.add(new Item(
-                        res.getString(1),
-                        res.getString(2),
-                        res.getDouble(3),
-                        res.getInt(4)
-                ));
+            Connection connection = DBConnection.getInstance().getConnection();
+            ResultSet resultSet = connection.createStatement().executeQuery(SQL);
+            while (resultSet.next()) {
+                itemList.add(
+                        new Item(
+                                resultSet.getString(1),
+                                resultSet.getString(2),
+                                resultSet.getDouble(3),
+                                resultSet.getInt(4)
+                        )
+                );
             }
-            return itemsList;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        return itemList;
     }
+
+    public ObservableList<String> getItemCodes(){
+        ObservableList<String> itemCodes = FXCollections.observableArrayList();
+
+        List<Item> all = getAll();
+        all.forEach(item -> {
+            itemCodes.add(item.getItemCode());
+        });
+
+        return itemCodes;
+    }
+
 }

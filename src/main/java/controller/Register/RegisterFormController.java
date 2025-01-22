@@ -7,6 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import model.User;
+import org.jasypt.util.text.BasicTextEncryptor;
 
 
 import java.net.URL;
@@ -33,6 +35,44 @@ public class RegisterFormController implements Initializable {
 
     @FXML
     void btnRegisterOnAction(ActionEvent event) {
+
+//        String key = "#5541Asd";
+//
+//        BasicTextEncryptor basicTextEncryptor = new BasicTextEncryptor();
+//
+//        basicTextEncryptor.setPassword(key);
+//
+//
+//        String SQL = "INSERT INTO users (username,email,password) VALUES(?,?,?)";
+//
+//        if (txtPassword.getText().equals(txtConfirmPassword.getText())){
+//
+//            Connection connection = DBConnection.getInstance().getConnection();
+//
+//            ResultSet resultSet = connection
+//                    .createStatement()
+//                    .executeQuery("SELECT * FROM users WHERE email=" + "'" + txtEmail.getText() + "'");
+//
+//            if (!resultSet.next()){
+//                User user = new User(
+//                        txtUserName.getText(),
+//                        txtEmail.getText(),
+//                        txtPassword.getText()
+//                );
+//
+//                PreparedStatement psTm = connection.prepareStatement(SQL);
+//                psTm.setString(1,user.getUsername());
+//                psTm.setString(2,user.getEmail());
+//                psTm.setString(3,basicTextEncryptor.encrypt(user.getPassword()));
+//                psTm.executeUpdate();
+//
+//            }else{
+//                new Alert(Alert.AlertType.ERROR,"user found!").show();
+//            }
+//        }else{
+//            new Alert(Alert.AlertType.ERROR,"Check your password!!").show();
+//        }
+
         if (txtUserName.getText().isEmpty() || txtEmail.getText().isEmpty() || txtEmail.getText().isEmpty() || txtConfirmPassword.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Incomplete Information");

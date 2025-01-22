@@ -4,8 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.net.URL;
@@ -42,6 +40,13 @@ public class MenuFromController {
         this.loadFormContent.getChildren().add(load);
     }
 
-    public void btnOrdersOnAction(ActionEvent actionEvent) {
+    public void btnOrdersOnAction(ActionEvent actionEvent) throws IOException {
+        URL resource =this.getClass().getResource("/view/orderformview.fxml");
+
+        assert  resource != null;
+
+        Parent load = FXMLLoader.load(resource);
+        this.loadFormContent.getChildren().clear();
+        this.loadFormContent.getChildren().add(load);
     }
 }
