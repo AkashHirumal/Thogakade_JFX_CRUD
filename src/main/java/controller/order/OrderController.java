@@ -18,7 +18,14 @@ public class OrderController {
         psTm.setObject(2,order.getDate());
         psTm.setString(3,order.getCustomerId());
 
-        return psTm.executeUpdate() > 0;
+        boolean isOrderAdd = psTm.executeUpdate() > 0;
+        if(isOrderAdd){
+            boolean isOrderDetailAdd = new OrderDetailController().addOrderDetail(order.getOrderDetails());
+            if (isOrderDetailAdd){
+                return false;
+            }
 
+        }
+         return true;
     }
 }
